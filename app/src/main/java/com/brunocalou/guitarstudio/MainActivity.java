@@ -26,11 +26,8 @@ public class MainActivity extends AppCompatActivity
 
     MediaRecorder recorder;
     MediaPlayer player;
-    ParcelFileDescriptor[] audio;
-    FileDescriptor input_audio;
-    FileDescriptor output_audio;
-    String audio_file;
-    String LOG_KEY = "audio_debug";
+    String LOG_KEY = "main_activity";
+    AudioThread audio_thread;
 
     public MainActivity() {
         recorder = null;
@@ -42,35 +39,29 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
-        cleanUpMediaPlayer();
-        cleanUpMediaRecorder();
+        audio_thread.pauseAudio();
+        audio_thread.interrupt();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_KEY, "onStop");
-        cleanUpMediaPlayer();
-        cleanUpMediaRecorder();
+        audio_thread.pauseAudio();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(LOG_KEY, "onPause");
-        cleanUpMediaPlayer();
-        cleanUpMediaRecorder();
+        audio_thread.pauseAudio();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(LOG_KEY, "onResume");
-        cleanUpMediaPlayer();
-        setUpMediaPlayer();
-
-        cleanUpMediaRecorder();
-        setUpMediaRecorder();
+        audio_thread.playAudio();
     }
 
     @Override
@@ -99,20 +90,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        try {
-            audio = ParcelFileDescriptor.createPipe();
-            input_audio = audio[0].getFileDescriptor();
-            output_audio = audio[1].getFileDescriptor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        audio_file =  Environment.getExternalStorageDirectory().getAbsolutePath();
-        audio_file += "/audiorecordtest.3gp";
-
-        setUpMediaRecorder();
-        setUpMediaPlayer();
+        audio_thread = new AudioThread();
+        audio_thread.start();
     }
 
     @Override
@@ -170,68 +149,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void setUpMediaRecorder() {
-        Log.d(LOG_KEY, "setUpMediaRecorder");
-//        if (recorder == null) {
-//            recorder = new MediaRecorder();
-//            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-//            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-////            recorder.setOutputFile(input_audio);
-//            recorder.setOutputFile(audio_file);
-//            try {
-//                recorder.prepare();
-//                recorder.start();   // Recording is now started
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-////        recorder.stop();
-////        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
-////        recorder.release(); // Now the object cannot be reused
-    }
-
-    public void setUpMediaPlayer() {
-        Log.d(LOG_KEY, "setUpMediaPlayer");
-        if (player == null) {
-            player = new MediaPlayer();
-            try {
-                player.setDataSource(audio_file);
-                player.prepare();
-                player.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void cleanUpMediaRecorder() {
-        Log.d(LOG_KEY, "cleanUpMediaRecorder");
-//        if (recorder != null) {
-//            try {
-//                recorder.stop();
-//                recorder.reset();
-//                recorder.release();
-//            } catch (IllegalStateException e) {
-//                e.printStackTrace();
-//            }
-//            recorder = null;
-//        }
-    }
-
-    public void cleanUpMediaPlayer() {
-        Log.d(LOG_KEY, "cleanUpMediaPlayer");
-        if (player != null) {
-            try {
-                player.stop();
-                player.reset();
-                player.release();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
-            player = null;
-        }
     }
 }
