@@ -31,14 +31,10 @@ public class MainActivity extends AppCompatActivity
     FileDescriptor output_audio;
     String audio_file;
     String LOG_KEY = "audio_debug";
-    boolean released_media_player;
-    boolean released_media_recorder;
 
     public MainActivity() {
         recorder = null;
         player = null;
-        released_media_player = true;
-        released_media_recorder = true;
         Log.d(LOG_KEY, "Constructor");
     }
 
@@ -178,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setUpMediaRecorder() {
         Log.d(LOG_KEY, "setUpMediaRecorder");
-//        if (released_media_recorder) {
+//        if (recorder == null) {
 //            recorder = new MediaRecorder();
 //            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 //            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -191,9 +187,7 @@ public class MainActivity extends AppCompatActivity
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-//            released_media_recorder = false;
 //        }
-//
 ////        recorder.stop();
 ////        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
 ////        recorder.release(); // Now the object cannot be reused
@@ -201,7 +195,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setUpMediaPlayer() {
         Log.d(LOG_KEY, "setUpMediaPlayer");
-        if (released_media_player) {
+        if (player == null) {
             player = new MediaPlayer();
             try {
                 player.setDataSource(audio_file);
@@ -210,39 +204,34 @@ public class MainActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            released_media_player = false;
         }
     }
 
     public void cleanUpMediaRecorder() {
         Log.d(LOG_KEY, "cleanUpMediaRecorder");
 //        if (recorder != null) {
-//            if (!released_media_recorder) {
-//                try {
-//                    recorder.stop();
-//                    recorder.reset();
-//                    recorder.release();
-//                } catch (IllegalStateException e) {
-//                    e.printStackTrace();
-//                }
-//                released_media_recorder = true;
+//            try {
+//                recorder.stop();
+//                recorder.reset();
+//                recorder.release();
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
 //            }
+//            recorder = null;
 //        }
     }
 
     public void cleanUpMediaPlayer() {
         Log.d(LOG_KEY, "cleanUpMediaPlayer");
         if (player != null) {
-            if (!released_media_player) {
-                try {
-                    player.stop();
-                    player.reset();
-                    player.release();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                }
-                released_media_player = true;
+            try {
+                player.stop();
+                player.reset();
+                player.release();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
             }
+            player = null;
         }
     }
 }
