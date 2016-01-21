@@ -16,6 +16,7 @@ Audio processing for Android using NDK, focusing Guitar
 * [Bruno Calou](https://github.com/brunocalou)
 * 
 ## TODO
+* application explodes if audio is not set; create a nice solution for that (try-catch ?)
 * add mockup of mobile application
 * explain that some Android models are compatible and others not (give examples)
 * explain something about the hardware (images please)
