@@ -14,3 +14,10 @@ Audio processing for Android using NDK, focusing Guitar
 
 ## Credits
 * [Bruno Calou](https://github.com/brunocalou)
+* 
+## TODO
+* add mockup of mobile application
+* explain that some Android models are compatible and others not (give examples)
+* explain something about the hardware (images please)
+* 
+
