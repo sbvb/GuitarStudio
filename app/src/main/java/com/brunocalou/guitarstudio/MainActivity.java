@@ -3,8 +3,6 @@ package com.brunocalou.guitarstudio;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -18,16 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     MediaRecorder recorder;
     MediaPlayer player;
     String LOG_KEY = "main_activity";
-    AudioThread audio_thread;
+    AudioProcessor audio_processor;
 
     public MainActivity() {
         recorder = null;
@@ -39,29 +34,28 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
-        audio_thread.pauseAudio();
-        audio_thread.interrupt();
+        audio_processor.stop();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_KEY, "onStop");
-        audio_thread.pauseAudio();
+        audio_processor.stop();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(LOG_KEY, "onPause");
-        audio_thread.pauseAudio();
+        audio_processor.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(LOG_KEY, "onResume");
-        audio_thread.playAudio();
+        audio_processor.start();
     }
 
     @Override
@@ -90,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        audio_thread = new AudioThread();
-        audio_thread.start();
+        audio_processor = new AudioProcessor();
+        audio_processor.start();
     }
 
     @Override
