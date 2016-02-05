@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
         audio_processor.stop();
+        audio_processor.finish();
     }
 
     @Override

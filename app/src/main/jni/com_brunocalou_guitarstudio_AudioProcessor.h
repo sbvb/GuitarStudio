@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     com_brunocalou_guitarstudio_AudioProcessor
+ * Method:    init
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_init
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_AudioProcessor
  * Method:    start
  * Signature: ()V
  */
@@ -21,6 +29,14 @@ JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_start
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_stop
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_AudioProcessor
+ * Method:    finish
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_finish
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus
