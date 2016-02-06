@@ -11,7 +11,7 @@ You can watch the video of the tutorial [here](https://www.youtube.com/watch?v=R
 | Use Case | Status |
 |----------|:--------:|
 | The app should capture audio from an external audio source |  |
-| The app should send the processed signal through an external audio output |  |
+| The app should send the processed signal through an external audio output | :white_check_mark: |
 | The process of capturing, processing and emitting the audio should have a very small delay |  | 
 | The app should offer at least 2 effects (Distortion and Delay) |  | 
 

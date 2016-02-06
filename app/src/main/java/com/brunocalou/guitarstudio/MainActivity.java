@@ -1,7 +1,5 @@
 package com.brunocalou.guitarstudio;
 
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,14 +17,10 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    MediaRecorder recorder;
-    MediaPlayer player;
     String LOG_KEY = "main_activity";
-    AudioProcessor audio_processor;
+    AudioThread audio_thread;
 
     public MainActivity() {
-        recorder = null;
-        player = null;
         Log.d(LOG_KEY, "Constructor");
     }
 
@@ -34,29 +28,28 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
-        audio_processor.stop();
-        audio_processor.finish();
+        stopAudioThread();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_KEY, "onStop");
-        audio_processor.stop();
+        stopAudioThread();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(LOG_KEY, "onPause");
-        audio_processor.stop();
+        stopAudioThread();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(LOG_KEY, "onResume");
-        audio_processor.start();
+        startAudioThread();
     }
 
     @Override
@@ -85,8 +78,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        audio_processor = new AudioProcessor();
-        audio_processor.start();
+        startAudioThread();
     }
 
     @Override
@@ -144,5 +136,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void stopAudioThread() {
+        if (audio_thread != null) {
+            audio_thread.finish();
+            audio_thread = null;
+        }
+    }
+
+    private void startAudioThread() {
+        try {
+            audio_thread = new AudioThread() {
+                @Override
+                public void onError(AudioProcessorException e) {
+                    e.printStackTrace();
+                    Log.e(LOG_KEY, "Audio thread error");
+                }
+            };
+            audio_thread.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
