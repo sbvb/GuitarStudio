@@ -18,4 +18,18 @@ public class AudioThread extends Thread {
     }
 
     public void onError(AudioProcessorException e) {};
+
+    public void addEffect(Effect effect) {
+        Log.d("AudioThread", "Will add the effect");
+        audio_processor.addEffect(effect);
+        Log.d("AudioThread", "Added the effect");
+    }
+
+    public void removeEffect(Effect effect) {
+        audio_processor.removeEffect(effect);
+    }
+
+    public void clearEffects() {
+        audio_processor.clearEffects();
+    }
 }

@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity
 
     String LOG_KEY = "main_activity";
     AudioThread audio_thread;
+    DistortionEffect distortion;
 
     public MainActivity() {
         Log.d(LOG_KEY, "Constructor");
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
+        destroyEffects();
         stopAudioThread();
     }
 
@@ -140,9 +142,25 @@ public class MainActivity extends AppCompatActivity
 
     private void stopAudioThread() {
         if (audio_thread != null) {
+            audio_thread.clearEffects();
             audio_thread.finish();
             audio_thread = null;
         }
+    }
+
+    private void destroyEffects() {
+        distortion.destroy();
+        distortion = null;
+    }
+
+    private void createEffects() {
+        distortion = new DistortionEffect();
+        distortion.setThreshold(200);
+        distortion.setLevel((byte)200);
+    }
+
+    private void addEffects() {
+        audio_thread.addEffect(distortion);
     }
 
     private void startAudioThread() {
@@ -154,6 +172,8 @@ public class MainActivity extends AppCompatActivity
                     Log.e(LOG_KEY, "Audio thread error");
                 }
             };
+            createEffects();
+            addEffects();
             audio_thread.start();
         } catch (Exception e) {
             e.printStackTrace();

@@ -10,13 +10,17 @@ EffectChain::EffectChain() : chain(std::list<Effect *>()) {
 }
 
 void EffectChain::add(Effect *effect) {
-    LOGD("Added effect");
+    LOGD("Added the effect to the effect chain");
     chain.push_back(effect);
 }
 
 void EffectChain::remove(Effect *effect) {
-    LOGD("Removed effect");
+    LOGD("Removed the effect from the effect chain");
     chain.remove(effect);
+}
+
+void EffectChain::clear() {
+    chain.clear();
 }
 
 void EffectChain::doEffect(int16_t *buffer, int size) {

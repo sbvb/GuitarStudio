@@ -16,6 +16,8 @@ public:
 
     void remove(Effect *effect);
 
+    void clear();
+
 protected:
     void doEffect(int16_t *buffer, int size);
 

@@ -16,6 +16,8 @@ EffectChain.cpp \
 DistortionEffect.cpp \
 VolumeEffect.cpp \
 DelayEffect.cpp \
+com_brunocalou_guitarstudio_Effect.cpp \
+com_brunocalou_guitarstudio_DistortionEffect.cpp \
 
 include $(BUILD_SHARED_LIBRARY)
 

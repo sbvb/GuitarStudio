@@ -23,7 +23,33 @@ JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_start
 JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_stopProcess
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_brunocalou_guitarstudio_AudioProcessor
+ * Method:    _addEffect
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor__1addEffect
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_AudioProcessor
+ * Method:    _removeEffect
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor__1removeEffect
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_AudioProcessor
+ * Method:    _clearEffects
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor__1clearEffects
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif
 #endif
+
+

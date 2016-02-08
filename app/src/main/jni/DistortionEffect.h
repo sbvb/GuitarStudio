@@ -12,7 +12,7 @@ class DistortionEffect : public Effect {
 public:
     DistortionEffect(uint8_t level = 100, uint16_t threshold = 32767);
 
-    void setThreshold(uint16_t threshold);
+    void setThreshold(uint16_t threshold); // max threshold = 32767
 
 protected:
     void doEffect(int16_t *buffer, int size);

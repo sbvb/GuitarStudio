@@ -10,6 +10,7 @@
 #include "DelayEffect.h"
 #include "opensl_io.h"
 #include <chrono>
+#include <inttypes.h>
 
 #define LOG_PERFORMANCE (true && LOG_ENABLED)
 #define BUFFERFRAMES 1024
@@ -34,11 +35,6 @@ VolumeEffect volume(255);
 
 EffectChain effect_chain;
 
-/*
- * Class:     com_brunocalou_guitarstudio_AudioProcessor
- * Method:    start
- * Signature: ()V
- */
 JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_startProcess(JNIEnv *env,
                                                                                         jobject) {
 #ifdef LOG_ENABLED
@@ -56,16 +52,14 @@ JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_start
     p = android_OpenAudioDevice(SR, 1, 2, BUFFERFRAMES);
     if (p == NULL) return false;
     running = true;
-    float threshold = 500;
-    float gain = 6;
 
     //Temporary
-    effect_chain.remove(&distortion);
-    effect_chain.remove(&delay);
-    effect_chain.remove(&volume);
-    effect_chain.add(&distortion);
-    effect_chain.add(&delay);
-    effect_chain.add(&volume);
+//    effect_chain.remove(&distortion);
+//    effect_chain.remove(&delay);
+//    effect_chain.remove(&volume);
+//    effect_chain.add(&distortion);
+//    effect_chain.add(&delay);
+//    effect_chain.add(&volume);
 
     while (running) {
 #ifdef LOG_PERFORMANCE
@@ -81,7 +75,7 @@ JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_start
 #endif
         samps = android_AudioIn(p, inbuffer, VECSAMPS_MONO);
         //Convert the audio in buffer
-        for (i = 0; i < samps; i ++) {
+        for (i = 0; i < samps; i++) {
             processed_buffer[i] = inbuffer[i] * CONV16BIT;
         }
         //Apply all the effects on the effect chain
@@ -96,15 +90,24 @@ JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_start
     return true;
 }
 
-/*
- * Class:     com_brunocalou_guitarstudio_AudioProcessor
- * Method:    stop
- * Signature: ()V
- */
 JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_AudioProcessor_stopProcess(JNIEnv *env,
                                                                                    jobject) {
 #ifdef LOG_ENABLED
     LOGD("Stop");
 #endif
     running = false;
+}
+
+void Java_com_brunocalou_guitarstudio_AudioProcessor__1addEffect(JNIEnv *env, jobject jobject1,
+                                                                 jlong effect_ptr) {
+    effect_chain.add(reinterpret_cast<Effect *>((int64_t)effect_ptr));
+}
+
+void Java_com_brunocalou_guitarstudio_AudioProcessor__1removeEffect(JNIEnv *env, jobject jobject1,
+                                                                    jlong effect_ptr) {
+    effect_chain.remove(reinterpret_cast<Effect *>((int64_t)effect_ptr));
+}
+
+void Java_com_brunocalou_guitarstudio_AudioProcessor__1clearEffects(JNIEnv *env, jobject jobject1) {
+    effect_chain.clear();
 }
