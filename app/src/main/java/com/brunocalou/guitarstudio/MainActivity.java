@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity
 
     private void stopAudioThread() {
         if (audio_thread != null) {
-            audio_thread.clearEffects();
             audio_thread.finish();
             audio_thread = null;
         }

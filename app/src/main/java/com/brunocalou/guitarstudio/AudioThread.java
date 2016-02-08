@@ -14,6 +14,7 @@ public class AudioThread extends Thread {
     }
 
     public void finish() {
+        clearEffects();
         audio_processor.stopProcess();
     }
 

@@ -3,7 +3,6 @@
 //
 
 #include "DistortionEffect.h"
-#include "AndroidLog.h"
 
 const uint16_t MAX_INT16 = 32767;
 
@@ -21,7 +20,6 @@ void DistortionEffect::setThreshold(uint16_t threshold) {
 }
 
 void DistortionEffect::doEffect(int16_t *buffer, int size) {
-    LOGD("Distortion Effect");
     for (int i = 0; i < size; i++) {
         if (buffer[i] > threshold) {
             buffer[i] = threshold;
