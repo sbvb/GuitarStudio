@@ -1,6 +1,16 @@
 # GuitarStudio
 Audio processing for Android using NDK, focusing Guitar
 
+<p align="center">
+<img src="https://cloud.githubusercontent.com/assets/5948318/12928245/875f33e0-cf53-11e5-8739-c8e9bd89690d.png" />
+</p>
+
+##Mockups
+<p align="center">
+<img src="https://cloud.githubusercontent.com/assets/5948318/12928254/8fd1e874-cf53-11e5-9b3f-21d936ba6001.jpg" />
+<img src="https://cloud.githubusercontent.com/assets/5948318/12928253/8fc8c730-cf53-11e5-9239-cbad23bc131c.jpg" />
+</p>
+
 ## Setup
 
 ### NDK
@@ -23,7 +33,6 @@ You can watch the video of the tutorial [here](https://www.youtube.com/watch?v=R
 * [Bruno Calou](https://github.com/brunocalou)
 
 ## TODO
-* add mockup of mobile application
 * explain that some Android models are compatible and others not (give examples)
 * explain something about the hardware (images please)
 
