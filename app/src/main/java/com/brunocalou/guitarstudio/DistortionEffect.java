@@ -5,6 +5,8 @@ package com.brunocalou.guitarstudio;
  */
 public class DistortionEffect extends Effect {
 
+    private int threshold;
+
     DistortionEffect() {
         nativePtr = _initNative();
     }
@@ -16,7 +18,16 @@ public class DistortionEffect extends Effect {
         } else if (threshold > max_16) {
             threshold = max_16;
         }
+        this.threshold = threshold;
         _setThreshold(getNativePtr(), threshold);
+    }
+
+    @Override
+    public void reload() {
+        if (getNativePtr() != 0) {
+            nativePtr = _initNative();
+            setThreshold(threshold);
+        }
     }
 
     public native void _setThreshold(long ptr, int threshold);

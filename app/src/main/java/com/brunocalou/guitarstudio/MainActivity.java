@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity
 
     String LOG_KEY = "main_activity";
     AudioThread audio_thread;
-    DistortionEffect distortion;
+    DistortionEffect distortion = null;
+    EffectList effects = new EffectList();
 
     public MainActivity() {
         Log.d(LOG_KEY, "Constructor");
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        createEffects();
 
         startAudioThread();
     }
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity
     private void destroyEffects() {
         distortion.destroy();
         distortion = null;
+        effects.clear();
     }
 
     private void createEffects() {
@@ -158,8 +162,15 @@ public class MainActivity extends AppCompatActivity
         distortion.setLevel((byte)200);
     }
 
+    private void reloadEffects() {
+        if (distortion != null) {
+            distortion.reload();
+        }
+    }
+
     private void addEffects() {
         audio_thread.addEffect(distortion);
+        effects.add(distortion);
     }
 
     private void startAudioThread() {
@@ -171,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                     Log.e(LOG_KEY, "Audio thread error");
                 }
             };
-            createEffects();
+            reloadEffects();
             addEffects();
             audio_thread.start();
         } catch (Exception e) {

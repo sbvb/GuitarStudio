@@ -7,12 +7,14 @@ import java.math.BigInteger;
 /**
  * Created by bruno on 08/02/16.
  */
-public class Effect {
+public abstract class Effect {
     static {
         System.loadLibrary("AudioProcessor");
     }
 
     protected long nativePtr;
+
+    public abstract void reload();
 
     @Override
     protected void finalize() throws Throwable {
