@@ -2,8 +2,6 @@ package com.brunocalou.guitarstudio;
 
 import android.util.Log;
 
-import java.math.BigInteger;
-
 /**
  * Created by bruno on 08/02/16.
  */
@@ -14,7 +12,13 @@ public abstract class Effect {
 
     protected long nativePtr;
 
-    public abstract void reload();
+    public void reload() {
+        if (isEnabled()) {
+            enable();
+        } else {
+            disable();
+        }
+    }
 
     @Override
     protected void finalize() throws Throwable {
@@ -32,12 +36,18 @@ public abstract class Effect {
         return nativePtr;
     }
 
-    public void enable (){
+    public void enable() {
+        Log.d("Effect", "Enabled effect");
         _enable(nativePtr);
     }
 
     public void disable() {
+        Log.d("Effect", "Disabled effect");
         _disable(nativePtr);
+    }
+
+    public boolean isEnabled() {
+        return _isEnabled(nativePtr);
     }
 
     public void setLevel(int level) {
@@ -46,6 +56,10 @@ public abstract class Effect {
             level = max_8;
         }
         _setLevel(nativePtr, level);
+    }
+
+    public int getLevel() {
+        return _getLevel(nativePtr);
     }
 
     //Native methods
@@ -58,5 +72,9 @@ public abstract class Effect {
 
     private native void _disable(long ptr);
 
+    private native boolean _isEnabled(long ptr);
+
     private native void _setLevel(long ptr, int level);
+
+    private native int _getLevel(long ptr);
 }

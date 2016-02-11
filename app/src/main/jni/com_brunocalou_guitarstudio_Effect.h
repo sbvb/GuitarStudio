@@ -41,11 +41,27 @@ JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_Effect__1disable
 
 /*
  * Class:     com_brunocalou_guitarstudio_Effect
+ * Method:    _isEnabled
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_brunocalou_guitarstudio_Effect__1isEnabled
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_Effect
  * Method:    _setLevel
  * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_com_brunocalou_guitarstudio_Effect__1setLevel
   (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     com_brunocalou_guitarstudio_Effect
+ * Method:    _getLevel
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_brunocalou_guitarstudio_Effect__1getLevel
+  (JNIEnv *, jobject, jlong);
 
 #ifdef __cplusplus
 }

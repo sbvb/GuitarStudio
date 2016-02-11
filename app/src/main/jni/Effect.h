@@ -14,11 +14,15 @@ public:
 
     void setLevel(uint8_t level);
 
+    uint8_t getLevel();
+
     void apply(int16_t *buffer, int size);
 
     void enable();
 
     void disable();
+
+    bool isEnabled();
 
 protected:
     virtual void doEffect(int16_t *buffer, int size) = 0;

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity
     AudioThread audio_thread;
     DistortionEffect distortion = null;
     EffectList effects = new EffectList();
+    EffectListAdapter adapter;
 
     public MainActivity() {
         Log.d(LOG_KEY, "Constructor");
@@ -80,6 +82,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        adapter = new EffectListAdapter(this, effects);
+
+        ((ListView) findViewById(R.id.effectListView)).setAdapter(adapter);
 
         createEffects();
 
@@ -157,12 +163,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createEffects() {
-        distortion = new DistortionEffect();
-        distortion.setThreshold(200);
-        distortion.setLevel((byte)200);
+        if (distortion == null) {
+            distortion = new DistortionEffect();
+            distortion.setThreshold(200);
+            distortion.setLevel((byte) 200);
+            effects.add(new EffectListItem("Distortion", distortion));
+        }
     }
 
     private void reloadEffects() {
+        Log.d(LOG_KEY, "Reload effects");
         if (distortion != null) {
             distortion.reload();
         }
@@ -170,7 +180,6 @@ public class MainActivity extends AppCompatActivity
 
     private void addEffects() {
         audio_thread.addEffect(distortion);
-        effects.add(distortion);
     }
 
     private void startAudioThread() {

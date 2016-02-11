@@ -16,12 +16,20 @@ void Effect::setLevel(uint8_t level) {
     this->level = level / 100.0f;
 }
 
+uint8_t Effect::getLevel() {
+    return (uint8_t) this->level * 100;
+}
+
 void Effect::enable() {
     this->is_enabled = true;
 }
 
 void Effect::disable() {
     this->is_enabled = false;
+}
+
+bool Effect::isEnabled() {
+    return this->is_enabled;
 }
 
 void Effect::apply(int16_t *buffer, int size) {

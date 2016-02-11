@@ -6,4 +6,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="settings">Settings</string>
+
+    <string name="default_effect_name">Effect</string>
 </resources>

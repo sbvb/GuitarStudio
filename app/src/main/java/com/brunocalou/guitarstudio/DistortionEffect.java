@@ -24,7 +24,8 @@ public class DistortionEffect extends Effect {
 
     @Override
     public void reload() {
-        if (getNativePtr() != 0) {
+        super.reload();
+        if (getNativePtr() == 0) {
             nativePtr = _initNative();
             setThreshold(threshold);
         }

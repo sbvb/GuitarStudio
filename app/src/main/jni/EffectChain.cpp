@@ -20,13 +20,17 @@ void EffectChain::remove(Effect *effect) {
 }
 
 void EffectChain::clear() {
+    LOGD("Cleared effect chain");
     chain.clear();
 }
 
 void EffectChain::doEffect(int16_t *buffer, int size) {
     //Applies all the effects
+    int counter = 0;
     for (std::list<Effect *>::const_iterator iterator = chain.begin(), end = chain.end();
          iterator != end; iterator++) {
         (*iterator)->apply(buffer, size);
+        counter ++;
     }
+//    LOGD("counter = %i", counter);
 }

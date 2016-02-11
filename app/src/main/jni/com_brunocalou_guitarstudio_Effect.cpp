@@ -23,8 +23,18 @@ void Java_com_brunocalou_guitarstudio_Effect__1disable(JNIEnv *env, jobject jobj
     (reinterpret_cast<Effect *>((int64_t)ptr))->disable();
 }
 
+jboolean Java_com_brunocalou_guitarstudio_Effect__1isEnabled(JNIEnv *env, jobject jobject1,
+                                                             jlong ptr) {
+    return (reinterpret_cast<Effect *>((int64_t)ptr))->isEnabled();
+}
+
 void Java_com_brunocalou_guitarstudio_Effect__1setLevel(JNIEnv *env, jobject jobject1,
                                                         jlong ptr, jint level) {
     (reinterpret_cast<Effect *>((int64_t)ptr))->setLevel(level);
+}
+
+jint Java_com_brunocalou_guitarstudio_Effect__1getLevel(JNIEnv *env, jobject jobject1,
+                                                        jlong ptr) {
+    return (reinterpret_cast<Effect *>((int64_t)ptr))->getLevel();
 }
 
