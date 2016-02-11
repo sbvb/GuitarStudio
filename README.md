@@ -1,8 +1,8 @@
-# GuitarStudio
+# GuitarStudio <img src="/app/src/main/res/mipmap-mdpi/guitar_studio_icon.png" />
 Audio processing for Android using NDK, focusing Guitar
 
 <p align="center">
-<img src="https://cloud.githubusercontent.com/assets/5948318/12928245/875f33e0-cf53-11e5-8739-c8e9bd89690d.png" />
+<img src="/app/src/main/res/mipmap-xxhdpi/guitar_studio_icon.png" />
 </p>
 
 ##Mockups
