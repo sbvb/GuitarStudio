@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new EffectListAdapter(this, effects);
         ((ListView) findViewById(R.id.effectListView)).setAdapter(adapter);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
