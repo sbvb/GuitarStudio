@@ -10,7 +10,7 @@
 class Effect {
 public:
 
-    Effect(uint8_t level = 100);
+    Effect(uint8_t level = 255);
 
     void setLevel(uint8_t level);
 

@@ -8,4 +8,8 @@
     <string name="settings">Settings</string>
 
     <string name="default_effect_name">Effect</string>
+
+    <string name="DISTORTION_EFFECT">DISTORTION_EFFECT</string>
+
+    <string name="DISTORTION_EFFECT_NAME">Distortion</string>
 </resources>

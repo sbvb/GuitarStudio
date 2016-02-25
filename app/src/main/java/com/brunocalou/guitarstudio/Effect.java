@@ -2,10 +2,12 @@ package com.brunocalou.guitarstudio;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 /**
  * Created by bruno on 08/02/16.
  */
-public abstract class Effect {
+public abstract class Effect implements Serializable {
     static {
         System.loadLibrary("AudioProcessor");
     }
@@ -54,8 +56,15 @@ public abstract class Effect {
         int max_8 = 255;
         if (level > max_8) {
             level = max_8;
+        } else if (level < 0) {
+            level = 0;
         }
+        Log.d("Effect", "Set level to " + level);
         _setLevel(nativePtr, level);
+    }
+
+    public int getMaxLevel() {
+        return 255;
     }
 
     public int getLevel() {

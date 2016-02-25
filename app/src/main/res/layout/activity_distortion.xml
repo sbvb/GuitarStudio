@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="6dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="6dp"
+        android:id="@+id/tableRow"
+        android:minHeight="40dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Gain"
+            android:id="@+id/textView2"
+            android:layout_weight="1" />
+
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/distortion_gain_seek_bar"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:foregroundTint="@color/green"
+            android:indeterminateTint="@color/green"
+            android:progressTint="@color/green"
+            android:secondaryProgressTint="@color/darkGrey"
+            android:thumbTint="@color/green"
+            android:indeterminate="false" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow"
+        android:layout_alignLeft="@+id/tableRow"
+        android:layout_alignStart="@+id/tableRow"
+        android:minHeight="40dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Level"
+            android:id="@+id/textView3"
+            android:layout_weight="1" />
+
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/distortion_level_seek_bar"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:foregroundTint="@color/green"
+            android:indeterminateTint="@color/green"
+            android:progressTint="@color/green"
+            android:secondaryProgressTint="@color/darkGrey"
+            android:thumbTint="@color/green"
+            android:indeterminate="false" />
+    </TableRow>
+
+</RelativeLayout>

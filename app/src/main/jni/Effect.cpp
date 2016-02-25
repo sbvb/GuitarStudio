@@ -3,6 +3,7 @@
 //
 
 #include "Effect.h"
+#include "AndroidLog.h"
 
 const int32_t MAX_INT16 = 32767;
 const int32_t MIN_INT16 = -32768;
@@ -14,10 +15,12 @@ Effect::Effect(uint8_t level) {
 
 void Effect::setLevel(uint8_t level) {
     this->level = level / 100.0f;
+    LOGD("set effect level to %i", level);
 }
 
 uint8_t Effect::getLevel() {
-    return (uint8_t) this->level * 100;
+    LOGD("effect level = %i", (uint8_t) (this->level * 100));
+    return (uint8_t) (this->level * 100);
 }
 
 void Effect::enable() {

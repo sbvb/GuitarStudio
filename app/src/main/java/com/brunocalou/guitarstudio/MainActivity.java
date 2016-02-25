@@ -1,6 +1,11 @@
 package com.brunocalou.guitarstudio;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -19,10 +24,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String LOG_KEY = "main_activity";
-    AudioThread audio_thread;
-    DistortionEffect distortion = null;
     EffectList effects = new EffectList();
     EffectListAdapter adapter;
+    Intent audio_processor_service_intent;
+    AudioProcessorService audio_processor_service;
+    private boolean is_bound = false;
 
     public MainActivity() {
         Log.d(LOG_KEY, "Constructor");
@@ -32,29 +38,29 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_KEY, "onDestroy");
-        destroyEffects();
-        stopAudioThread();
+        if (is_bound) {
+            this.unbindService(service_connection);
+            stopService(audio_processor_service_intent);
+            is_bound = false;
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(LOG_KEY, "onStop");
-        stopAudioThread();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(LOG_KEY, "onPause");
-        stopAudioThread();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(LOG_KEY, "onResume");
-        startAudioThread();
     }
 
     @Override
@@ -83,13 +89,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        audio_processor_service_intent = new Intent(this, AudioProcessorService.class);
+        this.startService(audio_processor_service_intent);
+        this.bindService(audio_processor_service_intent, service_connection, Context.BIND_AUTO_CREATE);
+
         adapter = new EffectListAdapter(this, effects);
-
         ((ListView) findViewById(R.id.effectListView)).setAdapter(adapter);
-
-        createEffects();
-
-        startAudioThread();
     }
 
     @Override
@@ -149,53 +154,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void stopAudioThread() {
-        if (audio_thread != null) {
-            audio_thread.finish();
-            audio_thread = null;
+    private ServiceConnection service_connection = new ServiceConnection() {
+        private static final String LOG_TAG = "service_connection";
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.v(LOG_TAG, "Service disconnected");
         }
-    }
 
-    private void destroyEffects() {
-        distortion.destroy();
-        distortion = null;
-        effects.clear();
-    }
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.v(LOG_TAG, "Service connected");
+            AudioProcessorService.MyBinder binder = (AudioProcessorService.MyBinder) service;
+            audio_processor_service = binder.getService();
+            is_bound = true;
 
-    private void createEffects() {
-        if (distortion == null) {
-            distortion = new DistortionEffect();
-            distortion.setThreshold(200);
-            distortion.setLevel((byte) 200);
-            effects.add(new EffectListItem("Distortion", distortion));
+            adapter.setEffectList(audio_processor_service.getEffectList());
         }
-    }
-
-    private void reloadEffects() {
-        Log.d(LOG_KEY, "Reload effects");
-        if (distortion != null) {
-            distortion.reload();
-        }
-    }
-
-    private void addEffects() {
-        audio_thread.addEffect(distortion);
-    }
-
-    private void startAudioThread() {
-        try {
-            audio_thread = new AudioThread() {
-                @Override
-                public void onError(AudioProcessorException e) {
-                    e.printStackTrace();
-                    Log.e(LOG_KEY, "Audio thread error");
-                }
-            };
-            reloadEffects();
-            addEffects();
-            audio_thread.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    };
 }

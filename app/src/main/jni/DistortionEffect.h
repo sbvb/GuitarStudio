@@ -19,6 +19,7 @@ protected:
 
 private:
     uint16_t threshold;
+    float input_multiplier;
 };
 
 
